@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orange Fruit Fitting Report - Complete</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* 編輯模式 */
+        .edit-mode {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .edit-mode h2 {
+            color: #ff6b35;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff6b35;
+        }
+
+        .section-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: #ff6b35;
+            border-bottom-color: #ff6b35;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .form-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.95em;
+        }
+
+        .photo-upload-section {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .photo-upload-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .photo-upload-box {
+            background: white;
+            border: 2px dashed #2196F3;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .photo-upload-box:hover {
+            border-color: #ff6b35;
+            background: #fff5f0;
+        }
+
+        .photo-preview {
+            max-width: 100%;
+            max-height: 150px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            margin-left: 10px;
+        }
+
+        /* 報告樣式 */
+        .report-container {
+            background: white;
+            max-width: 210mm;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        .report-container.show {
+            display: block;
+        }
+
+        .report-page {
+            background: white;
+            padding: 15mm 20mm;
+            min-height: 277mm;
+            page-break-after: always;
+            position: relative;
+        }
+
+        .orange-bar-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8mm;
+            background: linear-gradient(90deg, #ff6b35 0%, #ff6b35 30%, #f7931e 100%);
+        }
+
+        .orange-bar-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3mm;
+            background: linear-gradient(90deg, #ff6b35 0%, #f7931e 100%);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20mm;
+            margin-top: 10mm;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-box {
+            width: 45px;
+            height: 45px;
+            background: #ff6b35;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .logo-bar {
+            width: 25px;
+            height: 4px;
+            background: white;
+            margin-top: 3px;
+        }
+
+        .logo-text {
+            font-weight: 900;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.2;
+        }
+
+        .report-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            letter-spacing: 5px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20mm;
+            margin-bottom: 8mm;
+        }
+
+        .info-section h3 {
+            color: #2196F3;
+            font-size: 12px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .info-row {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            padding: 5px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 11px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .info-value {
+            color: #333;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 8mm;
+        }
+
+        .photo-box {
+            background: #e9ecef;
+            aspect-ratio: 4/3;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 3px;
+            text-align: center;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .angles-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 8mm;
+        }
+
+        .angles-column h3 {
+            font-size: 12px;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .angles-column.pre h3 {
+            color: #2196F3;
+            border-bottom: 2px solid #2196F3;
+        }
+
+        .angles-column.post h3 {
+            color: #ff6b35;
+            border-bottom: 2px solid #ff6b35;
+        }
+
+        .angle-item {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            padding: 4px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 10px;
+        }
+
+        .angle-item:last-child {
+            border-bottom: none;
+        }
+
+        .angle-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .angle-value {
+            color: #333;
+            text-align: right;
+            font-weight: 700;
+        }
+
+        /* 新增代償區塊 */
+        .compensation-section {
+            background: #fff8f0;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #ff9800;
+            margin-bottom: 8mm;
+        }
+
+        .compensation-section h3 {
+            color: #e65100;
+            font-size: 12px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .comp-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .comp-item {
+            background: white;
+            padding: 8px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .comp-item h4 {
+            font-size: 10px;
+            color: #ff6b35;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .comp-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .comp-status {
+            text-align: center;
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .status-good { background: #4caf50; color: white; }
+        .status-warning { background: #ff9800; color: white; }
+        .status-danger { background: #f44336; color: white; }
+
+        .side-badge {
+            padding: 1px 6px;
+            border-radius: 8px;
+            font-size: 8px;
+            font-weight: 700;
+        }
+
+        .badge-left { background: #2196F3; color: white; }
+        .badge-right { background: #E91E63; color: white; }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .notes-column h4 {
+            font-size: 11px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .notes-column.pre h4 { color: #2196F3; }
+        .notes-column.post h4 { color: #ff6b35; }
+
+        .notes-list {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 80px;
+        }
+
+        .notes-list ol {
+            margin-left: 15px;
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        .page-footer {
+            position: absolute;
+            bottom: 8mm;
+            left: 20mm;
+            right: 20mm;
+            text-align: center;
+            font-size: 9px;
+            color: #999;
+            padding-top: 5px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        /* Page 2 樣式 */
+        .setup-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .setup-column {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 5px;
+        }
+
+        .setup-column h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .setup-column.original h3 {
+            color: #2196F3;
+            border-bottom: 2px solid #2196F3;
+        }
+
+        .setup-column.final h3 {
+            color: #ff6b35;
+            border-bottom: 2px solid #ff6b35;
+        }
+
+        .setup-item {
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            padding: 5px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 10px;
+        }
+
+        .setup-item:last-child {
+            border-bottom: none;
+        }
+
+        .setup-label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .setup-value {
+            color: #333;
+        }
+
+        .measurements-box {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .measurement-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 10px;
+        }
+
+        .measurement-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 8px;
+            background: #f8f9fa;
+            border-radius: 3px;
+        }
+
+        .measurement-label {
+            font-weight: 700;
+        }
+
+        .bike-diagram {
+            margin-top: 15px;
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .bike-diagram svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .action-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        @media print {
+            body { background: white; }
+            .edit-mode, .action-buttons { display: none !important; }
+            .report-container { box-shadow: none; max-width: 100%; }
+            .report-page { padding: 0; margin: 0; page-break-after: always; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 編輯模式 -->
+        <div class="edit-mode" id="editMode">
+            <h2>🍊 Orange Fruit Fitting Report - 資料輸入</h2>
+
+            <div class="section-tabs">
+                <button class="tab-btn active" data-tab="basic">基本資料</button>
+                <button class="tab-btn" data-tab="photos">照片上傳</button>
+                <button class="tab-btn" data-tab="angles">角度數據</button>
+                <button class="tab-btn" data-tab="compensation">代償數據</button>
+                <button class="tab-btn" data-tab="setup">設定調整</button>
+                <button class="tab-btn" data-tab="notes">Notes</button>
+            </div>
+
+            <!-- Tab 1: 基本資料 -->
+            <div class="tab-content active" data-content="basic">
+                <div class="form-grid">
+                    <div class="form-section">
+                        <h3>運動員資訊</h3>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="athleteName">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="athleteEmail">
+                        </div>
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <input type="text" id="athleteGender">
+                        </div>
+                        <div class="form-group">
+                            <label>Age</label>
+                            <input type="number" id="athleteAge">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>自行車資訊</h3>
+                        <div class="form-group">
+                            <label>Make</label>
+                            <input type="text" id="bikeMake">
+                        </div>
+                        <div class="form-group">
+                            <label>Model</label>
+                            <input type="text" id="bikeModel">
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <input type="text" id="bikeType">
+                        </div>
+                        <div class="form-group">
+                            <label>Size</label>
+                            <input type="text" id="bikeSize">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: 照片上傳 -->
+            <div class="tab-content" data-content="photos">
+                <div class="photo-upload-section">
+                    <h3 style="margin-bottom: 15px;">📸 上傳照片</h3>
+                    <div class="photo-upload-grid">
+                        <div class="photo-upload-box" onclick="document.getElementById('prePhoto').click()">
+                            <p>📷 Pre-Fit Photo</p>
+                            <p style="font-size: 0.8em; color: #666; margin-top: 5px;">點擊上傳</p>
+                            <input type="file" id="prePhoto" accept="image/*" style="display:none;" onchange="previewPhoto(this, 'prePhotoPreview')">
+                            <img id="prePhotoPreview" class="photo-preview" style="display:none;">
+                        </div>
+
+                        <div class="photo-upload-box" onclick="document.getElementById('postPhoto').click()">
+                            <p>📷 Post-Fit Photo</p>
+                            <p style="font-size: 0.8em; color: #666; margin-top: 5px;">點擊上傳</p>
+                            <input type="file" id="postPhoto" accept="image/*" style="display:none;" onchange="previewPhoto(this, 'postPhotoPreview')">
+                            <img id="postPhotoPreview" class="photo-preview" style="display:none;">
+                        </div>
+
+                        <div class="photo-upload-box" onclick="document.getElementById('skeletonPhoto').click()">
+                            <p>📷 Skeleton Overlay</p>
+                            <p style="font-size: 0.8em; color: #666; margin-top: 5px;">點擊上傳</p>
+                            <input type="file" id="skeletonPhoto" accept="image/*" style="display:none;" onchange="previewPhoto(this, 'skeletonPhotoPreview')">
+                            <img id="skeletonPhotoPreview" class="photo-preview" style="display:none;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photo-upload-section">
+                    <h3 style="margin-bottom: 15px;">🆕 代償分析照片</h3>
+                    <div class="photo-upload-grid">
+                        <div class="photo-upload-box" onclick="document.getElementById('heelLeftPhoto').click()">
+                            <p>👟 左腳跟外旋</p>
+                            <input type="file" id="heelLeftPhoto" accept="image/*" style="display:none;" onchange="previewPhoto(this, 'heelLeftPreview')">
+                            <img id="heelLeftPreview" class="photo-preview" style="display:none;">
+                        </div>
+
+                        <div class="photo-upload-box" onclick="document.getElementById('heelRightPhoto').click()">
+                            <p>👟 右腳跟外旋</p>
+                            <input type="file" id="heelRightPhoto" accept="image/*" style="display:none;" onchange="previewPhoto(this, 'heelRightPreview')">
+                            <img id="heelRightPreview" class="photo-preview" style="display:none;">
+                        </div>
+
+                        <div class="photo-upload-box" onclick="document.getElementById('lowerCompPhoto').click()">
+                            <p>🔄 下肢代償</p>
+                            <input type="file" id="lowerCompPhoto" accept="image/*" style="display:none;" onchange="previewPhoto(this, 'lowerCompPreview')">
+                            <img id="lowerCompPreview" class="photo-preview" style="display:none;">
+                        </div>
+
+                        <div class="photo-upload-box" onclick="document.getElementById('upperCompPhoto').click()">
+                            <p>💪 上肢代償</p>
+                            <input type="file" id="upperCompPhoto" accept="image/*" style="display:none;" onchange="previewPhoto(this, 'upperCompPreview')">
+                            <img id="upperCompPreview" class="photo-preview" style="display:none;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photo-upload-section" style="background: #e8f5e9;">
+                    <h3 style="margin-bottom: 15px; color: #2e7d32;">🚴 自行車幾何圖 (Bike Geometry Diagram)</h3>
+                    <div style="max-width: 400px; margin: 0 auto;">
+                        <div class="photo-upload-box" onclick="document.getElementById('bikeGeometryPhoto').click()" style="border-color: #4CAF50;">
+                            <p style="color: #2e7d32;">📐 上傳幾何圖</p>
+                            <p style="font-size: 0.8em; color: #666; margin-top: 5px;">HX (綠色) / HY (橘色) 標示圖</p>
+                            <input type="file" id="bikeGeometryPhoto" accept="image/*" style="display:none;" onchange="previewPhoto(this, 'bikeGeometryPreview')">
+                            <img id="bikeGeometryPreview" class="photo-preview" style="display:none;">
+                        </div>
+                    </div>
+                    <p style="text-align: center; font-size: 0.85em; color: #555; margin-top: 10px;">
+                        ⚠️ 請上傳已標示 HX (綠色) 和 HY (橘色) 的自行車幾何圖
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tab 3: 角度數據 -->
+            <div class="tab-content" data-content="angles">
+                <div class="form-grid">
+                    <div class="form-section">
+                        <h3>Pre-Fit Angles</h3>
+                        <div class="form-group">
+                            <label>Knee Angle Extension</label>
+                            <input type="text" id="preKneeExt" placeholder="148°">
+                        </div>
+                        <div class="form-group">
+                            <label>Knee Angle Flexion</label>
+                            <input type="text" id="preKneeFlex" placeholder="75°">
+                        </div>
+                        <div class="form-group">
+                            <label>Ankle Angle Max</label>
+                            <input type="text" id="preAnkle" placeholder="105°">
+                        </div>
+                        <div class="form-group">
+                            <label>Knee to Foot H. Offset</label>
+                            <input type="text" id="preKneeOffset" placeholder="3mm">
+                        </div>
+                        <div class="form-group">
+                            <label>Back Angle</label>
+                            <input type="text" id="preBack" placeholder="38°">
+                        </div>
+                        <div class="form-group">
+                            <label>Hip Angle Closed</label>
+                            <input type="text" id="preHip" placeholder="92°">
+                        </div>
+                        <div class="form-group">
+                            <label>Shoulder Angle to Wrist</label>
+                            <input type="text" id="preShoulderWrist" placeholder="85°">
+                        </div>
+                        <div class="form-group">
+                            <label>Shoulder Angle to Elbow</label>
+                            <input type="text" id="preShoulderElbow" placeholder="105°">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Post-Fit Angles</h3>
+                        <div class="form-group">
+                            <label>Knee Angle Extension</label>
+                            <input type="text" id="postKneeExt" placeholder="150°">
+                        </div>
+                        <div class="form-group">
+                            <label>Knee Angle Flexion</label>
+                            <input type="text" id="postKneeFlex" placeholder="73°">
+                        </div>
+                        <div class="form-group">
+                            <label>Ankle Angle Max</label>
+                            <input type="text" id="postAnkle" placeholder="103°">
+                        </div>
+                        <div class="form-group">
+                            <label>Knee to Foot H. Offset</label>
+                            <input type="text" id="postKneeOffset" placeholder="1mm">
+                        </div>
+                        <div class="form-group">
+                            <label>Back Angle</label>
+                            <input type="text" id="postBack" placeholder="36°">
+                        </div>
+                        <div class="form-group">
+                            <label>Hip Angle Closed</label>
+                            <input type="text" id="postHip" placeholder="90°">
+                        </div>
+                        <div class="form-group">
+                            <label>Shoulder Angle to Wrist</label>
+                            <input type="text" id="postShoulderWrist" placeholder="87°">
+                        </div>
+                        <div class="form-group">
+                            <label>Shoulder Angle to Elbow</label>
+                            <input type="text" id="postShoulderElbow" placeholder="103°">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: 代償數據 -->
+            <div class="tab-content" data-content="compensation">
+                <div class="form-section" style="margin-bottom: 20px;">
+                    <h3>🦶 腳跟外旋 (Heel Rotation)</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>左腳外旋角度</label>
+                            <input type="text" id="leftHeel" placeholder="4.2°">
+                        </div>
+                        <div class="form-group">
+                            <label>右腳外旋角度</label>
+                            <input type="text" id="rightHeel" placeholder="8.7°">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section" style="margin-bottom: 20px;">
+                    <h3>📐 腳掌開放角 (Foot Opening Angle)</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>左腳開放角</label>
+                            <input type="text" id="leftFoot" placeholder="8.5°">
+                        </div>
+                        <div class="form-group">
+                            <label>右腳開放角</label>
+                            <input type="text" id="rightFoot" placeholder="12.3°">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section" style="margin-bottom: 20px;">
+                    <h3>🔄 下肢代償 (Lower Body)</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>左膝偏移</label>
+                            <input type="text" id="leftKnee" placeholder="+2.1mm">
+                        </div>
+                        <div class="form-group">
+                            <label>右膝偏移</label>
+                            <input type="text" id="rightKnee" placeholder="-1.8mm">
+                        </div>
+                        <div class="form-group">
+                            <label>髖部晃動</label>
+                            <input type="text" id="hipMove" placeholder="2.3°">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>💪 上肢代償 (Upper Body)</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>肩膀高度差</label>
+                            <input type="text" id="shoulderDiff" placeholder="6.5mm">
+                        </div>
+                        <div class="form-group">
+                            <label>脊椎側傾</label>
+                            <input type="text" id="spineTilt" placeholder="左傾 2.8°">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 5: 設定調整 -->
+            <div class="tab-content" data-content="setup">
+                <div class="form-grid">
+                    <div class="form-section">
+                        <h3>Original Setup</h3>
+                        <div class="form-group"><label>Saddle</label><input type="text" id="origSaddle"></div>
+                        <div class="form-group"><label>Spacer Height</label><input type="text" id="origSpacer"></div>
+                        <div class="form-group"><label>Handlebar</label><input type="text" id="origHandlebar"></div>
+                        <div class="form-group"><label>Stem Length</label><input type="text" id="origStemLength"></div>
+                        <div class="form-group"><label>Stem Angle</label><input type="text" id="origStemAngle"></div>
+                        <div class="form-group"><label>Shift Hoods</label><input type="text" id="origHoods"></div>
+                        <div class="form-group"><label>Hood Tilt Angle</label><input type="text" id="origHoodTilt"></div>
+                        <div class="form-group"><label>Crank Length</label><input type="text" id="origCrank"></div>
+                        <div class="form-group"><label>Pedals</label><input type="text" id="origPedals"></div>
+                        <div class="form-group"><label>Shoes</label><input type="text" id="origShoes"></div>
+                        
+                        <h4 style="margin-top: 15px; margin-bottom: 10px;">測量數據</h4>
+                        <div class="form-group"><label>SX (座墊X)</label><input type="text" id="origSX"></div>
+                        <div class="form-group"><label>SY (座墊Y)</label><input type="text" id="origSY"></div>
+                        <div class="form-group"><label>HX (把手X)</label><input type="text" id="origHX"></div>
+                        <div class="form-group"><label>HY (把手Y)</label><input type="text" id="origHY"></div>
+                        <div class="form-group"><label>Saddle Tilt Angle</label><input type="text" id="origTilt"></div>
+                        <div class="form-group"><label>Saddle Height</label><input type="text" id="origHeight"></div>
+                        <div class="form-group"><label>Saddle Setback</label><input type="text" id="origSetback"></div>
+                        <div class="form-group"><label>HB to Saddle</label><input type="text" id="origHBSaddle"></div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Final Setup</h3>
+                        <div class="form-group"><label>Saddle</label><input type="text" id="finalSaddle"></div>
+                        <div class="form-group"><label>Spacer Height</label><input type="text" id="finalSpacer"></div>
+                        <div class="form-group"><label>Handlebar</label><input type="text" id="finalHandlebar"></div>
+                        <div class="form-group"><label>Stem Length</label><input type="text" id="finalStemLength"></div>
+                        <div class="form-group"><label>Stem Angle</label><input type="text" id="finalStemAngle"></div>
+                        <div class="form-group"><label>Shift Hoods</label><input type="text" id="finalHoods"></div>
+                        <div class="form-group"><label>Hood Tilt Angle</label><input type="text" id="finalHoodTilt"></div>
+                        <div class="form-group"><label>Crank Length</label><input type="text" id="finalCrank"></div>
+                        <div class="form-group"><label>Pedals</label><input type="text" id="finalPedals"></div>
+                        <div class="form-group"><label>Shoes</label><input type="text" id="finalShoes"></div>
+                        
+                        <h4 style="margin-top: 15px; margin-bottom: 10px;">測量數據</h4>
+                        <div class="form-group"><label>SX</label><input type="text" id="finalSX"></div>
+                        <div class="form-group"><label>SY</label><input type="text" id="finalSY"></div>
+                        <div class="form-group"><label>HX</label><input type="text" id="finalHX"></div>
+                        <div class="form-group"><label>HY</label><input type="text" id="finalHY"></div>
+                        <div class="form-group"><label>Saddle Tilt Angle</label><input type="text" id="finalTilt"></div>
+                        <div class="form-group"><label>Saddle Height</label><input type="text" id="finalHeight"></div>
+                        <div class="form-group"><label>Saddle Setback</label><input type="text" id="finalSetback"></div>
+                        <div class="form-group"><label>HB to Saddle</label><input type="text" id="finalHBSaddle"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 6: Notes -->
+            <div class="tab-content" data-content="notes">
+                <div class="form-grid">
+                    <div class="form-section">
+                        <h3>Pre-Fit Notes</h3>
+                        <div class="form-group">
+                            <textarea id="preNote1" rows="2" placeholder="Note 1"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="preNote2" rows="2" placeholder="Note 2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="preNote3" rows="2" placeholder="Note 3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Post-Fit Notes</h3>
+                        <div class="form-group">
+                            <textarea id="postNote1" rows="2" placeholder="Note 1"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="postNote2" rows="2" placeholder="Note 2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="postNote3" rows="2" placeholder="Note 3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="postNote4" rows="2" placeholder="Note 4"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-primary" onclick="generateReport()">📊 生成完整報告</button>
+                <button class="btn btn-secondary" onclick="fillSampleData()">📝 填入範例數據</button>
+            </div>
+        </div>
+
+        <!-- 報告預覽（暫時只顯示主要結構，完整版本太長） -->
+        <div class="report-container" id="reportContainer">
+            <!-- Page 1 會在生成時動態創建 -->
+            <!-- Page 2 會在生成時動態創建 -->
+        </div>
+    </div>
+
+    <!-- 操作按鈕 -->
+    <div class="action-buttons" style="display:none;" id="actionButtons">
+        <button class="btn btn-secondary" onclick="backToEdit()">← 返回編輯</button>
+        <button class="btn btn-primary" onclick="window.print()">🖨️ 列印 / PDF</button>
+        <button class="btn btn-secondary" onclick="downloadJSON()">💾 下載數據</button>
+    </div>
+
+    <script>
+        // Tab 切換
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelector(`[data-content="${tab}"]`).classList.add('active');
+            });
+        });
+
+        // 照片預覽
+        function previewPhoto(input, previewId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById(previewId);
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // 生成報告 - 完整版
+        function generateReport() {
+            const reportContainer = document.getElementById('reportContainer');
+            
+            // 收集所有數據
+            const data = collectAllData();
+            
+            // 生成 Page 1
+            const page1 = generatePage1(data);
+            
+            // 生成 Page 2
+            const page2 = generatePage2(data);
+            
+            reportContainer.innerHTML = page1 + page2;
+            
+            document.getElementById('editMode').style.display = 'none';
+            reportContainer.classList.add('show');
+            document.getElementById('actionButtons').style.display = 'flex';
+            
+            // 儲存到 localStorage
+            localStorage.setItem('fittingData', JSON.stringify(data));
+        }
+
+        function collectAllData() {
+            return {
+                athlete: {
+                    name: document.getElementById('athleteName').value || '-',
+                    email: document.getElementById('athleteEmail').value || '-',
+                    gender: document.getElementById('athleteGender').value || '-',
+                    age: document.getElementById('athleteAge').value || '-'
+                },
+                bicycle: {
+                    make: document.getElementById('bikeMake').value || '-',
+                    model: document.getElementById('bikeModel').value || '-',
+                    type: document.getElementById('bikeType').value || '-',
+                    size: document.getElementById('bikeSize').value || '-'
+                },
+                photos: {
+                    pre: document.getElementById('prePhotoPreview').src || '',
+                    post: document.getElementById('postPhotoPreview').src || '',
+                    skeleton: document.getElementById('skeletonPhotoPreview').src || '',
+                    bikeGeometry: document.getElementById('bikeGeometryPreview').src || ''
+                },
+                preFit: {
+                    kneeExt: document.getElementById('preKneeExt').value || '-',
+                    kneeFlex: document.getElementById('preKneeFlex').value || '-',
+                    ankle: document.getElementById('preAnkle').value || '-',
+                    kneeOffset: document.getElementById('preKneeOffset').value || '-',
+                    back: document.getElementById('preBack').value || '-',
+                    hip: document.getElementById('preHip').value || '-',
+                    shoulderWrist: document.getElementById('preShoulderWrist').value || '-',
+                    shoulderElbow: document.getElementById('preShoulderElbow').value || '-'
+                },
+                postFit: {
+                    kneeExt: document.getElementById('postKneeExt').value || '-',
+                    kneeFlex: document.getElementById('postKneeFlex').value || '-',
+                    ankle: document.getElementById('postAnkle').value || '-',
+                    kneeOffset: document.getElementById('postKneeOffset').value || '-',
+                    back: document.getElementById('postBack').value || '-',
+                    hip: document.getElementById('postHip').value || '-',
+                    shoulderWrist: document.getElementById('postShoulderWrist').value || '-',
+                    shoulderElbow: document.getElementById('postShoulderElbow').value || '-'
+                },
+                compensation: {
+                    leftHeel: document.getElementById('leftHeel').value || '-',
+                    rightHeel: document.getElementById('rightHeel').value || '-',
+                    leftFoot: document.getElementById('leftFoot').value || '-',
+                    rightFoot: document.getElementById('rightFoot').value || '-',
+                    leftKnee: document.getElementById('leftKnee').value || '-',
+                    rightKnee: document.getElementById('rightKnee').value || '-',
+                    hipMove: document.getElementById('hipMove').value || '-',
+                    shoulderDiff: document.getElementById('shoulderDiff').value || '-',
+                    spineTilt: document.getElementById('spineTilt').value || '-'
+                },
+                original: {
+                    saddle: document.getElementById('origSaddle').value || '-',
+                    spacer: document.getElementById('origSpacer').value || '-',
+                    handlebar: document.getElementById('origHandlebar').value || '-',
+                    stemLength: document.getElementById('origStemLength').value || '-',
+                    stemAngle: document.getElementById('origStemAngle').value || '-',
+                    hoods: document.getElementById('origHoods').value || '-',
+                    hoodTilt: document.getElementById('origHoodTilt').value || '-',
+                    crank: document.getElementById('origCrank').value || '-',
+                    pedals: document.getElementById('origPedals').value || '-',
+                    shoes: document.getElementById('origShoes').value || '-',
+                    sx: document.getElementById('origSX').value || '-',
+                    sy: document.getElementById('origSY').value || '-',
+                    hx: document.getElementById('origHX').value || '-',
+                    hy: document.getElementById('origHY').value || '-',
+                    tilt: document.getElementById('origTilt').value || '-',
+                    height: document.getElementById('origHeight').value || '-',
+                    setback: document.getElementById('origSetback').value || '-',
+                    hbSaddle: document.getElementById('origHBSaddle').value || '-'
+                },
+                final: {
+                    saddle: document.getElementById('finalSaddle').value || '-',
+                    spacer: document.getElementById('finalSpacer').value || '-',
+                    handlebar: document.getElementById('finalHandlebar').value || '-',
+                    stemLength: document.getElementById('finalStemLength').value || '-',
+                    stemAngle: document.getElementById('finalStemAngle').value || '-',
+                    hoods: document.getElementById('finalHoods').value || '-',
+                    hoodTilt: document.getElementById('finalHoodTilt').value || '-',
+                    crank: document.getElementById('finalCrank').value || '-',
+                    pedals: document.getElementById('finalPedals').value || '-',
+                    shoes: document.getElementById('finalShoes').value || '-',
+                    sx: document.getElementById('finalSX').value || '-',
+                    sy: document.getElementById('finalSY').value || '-',
+                    hx: document.getElementById('finalHX').value || '-',
+                    hy: document.getElementById('finalHY').value || '-',
+                    tilt: document.getElementById('finalTilt').value || '-',
+                    height: document.getElementById('finalHeight').value || '-',
+                    setback: document.getElementById('finalSetback').value || '-',
+                    hbSaddle: document.getElementById('finalHBSaddle').value || '-'
+                },
+                notes: {
+                    pre: [
+                        document.getElementById('preNote1').value,
+                        document.getElementById('preNote2').value,
+                        document.getElementById('preNote3').value
+                    ].filter(n => n),
+                    post: [
+                        document.getElementById('postNote1').value,
+                        document.getElementById('postNote2').value,
+                        document.getElementById('postNote3').value,
+                        document.getElementById('postNote4').value
+                    ].filter(n => n)
+                }
+            };
+        }
+
+        function generatePage1(data) {
+            return `
+                <div class="report-page">
+                    <div class="orange-bar-top"></div>
+                    
+                    <div class="report-header">
+                        <div class="logo">
+                            <div class="logo-box">
+                                <div class="logo-icon"></div>
+                                <div class="logo-bar"></div>
+                            </div>
+                            <div class="logo-text">ORANGE<br>FRUIT</div>
+                        </div>
+                        <div class="report-title">R E P O R T</div>
+                        <div style="width: 70px;"></div>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-section">
+                            <h3>ATHLETE INFORMATION</h3>
+                            <div class="info-row">
+                                <div class="info-label">Name</div>
+                                <div class="info-value">${data.athlete.name}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Email</div>
+                                <div class="info-value">${data.athlete.email}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Gender</div>
+                                <div class="info-value">${data.athlete.gender}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Age</div>
+                                <div class="info-value">${data.athlete.age}</div>
+                            </div>
+                        </div>
+
+                        <div class="info-section">
+                            <h3>BICYCLE INFORMATION</h3>
+                            <div class="info-row">
+                                <div class="info-label">Make</div>
+                                <div class="info-value">${data.bicycle.make}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Model</div>
+                                <div class="info-value">${data.bicycle.model}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Type</div>
+                                <div class="info-value">${data.bicycle.type}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Size</div>
+                                <div class="info-value">${data.bicycle.size}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="photo-grid">
+                        <div class="photo-box">
+                            ${data.photos.pre ? `<img src="${data.photos.pre}">` : ''}
+                            <div class="photo-label">PRE-FIT PHOTO</div>
+                        </div>
+                        <div class="photo-box">
+                            ${data.photos.post ? `<img src="${data.photos.post}">` : ''}
+                            <div class="photo-label">POST-FIT PHOTO</div>
+                        </div>
+                        <div class="photo-box">
+                            ${data.photos.skeleton ? `<img src="${data.photos.skeleton}">` : ''}
+                            <div class="photo-label">SKELETON OVERLAY</div>
+                        </div>
+                    </div>
+
+                    <div class="angles-grid">
+                        <div class="angles-column pre">
+                            <h3>PRE-FIT ANGLES</h3>
+                            <div class="angle-item">
+                                <div class="angle-label">Knee Angle Extension</div>
+                                <div class="angle-value">${data.preFit.kneeExt}</div>
+                            </div>
+                            <div class="angle-item">
+                                <div class="angle-label">Knee Angle Flexion</div>
+                                <div class="angle-value">${data.preFit.kneeFlex}</div>
+                            </div>
+                            <div class="angle-item">
+                                <div class="angle-label">Ankle Angle Max</div>
+                                <div class="angle-value">${data.preFit.ankle}</div>
+                            </div>
+                            <div class="angle-item">
+                                <div class="angle-label">Knee to Foot H. Offset</div>
+                                <div class="angle-value">${data.preFit.kneeOffset}</div>
+                            </div>
+                            <div class="angle-item">
+                                <div class="angle-label">Back Angle</div>
+                                <div class="angle-value">${data.preFit.back}</div>
+                            </div>
+                            <div class="angle-item">
+                                <div class="angle-label">Hip Angle Closed</div>
+                                <div class="angle-value">${data.preFit.hip}</div>
+                            </div>
+                            <div class="angle-item">
+                                <div class="angle-label">Shoulder Angle to Wrist</div>
+                                <div class="angle-value">${data.preFit.shoulderWrist}</div>
+                            </div>
+                            <div class="angle-item">
+                                <div class="angle-label">Shoulder Angle to Elbow</div>
+                                <div class="angle-value">${data.preFit.shoulderElbow}</div>
+                            </div>
+                        </div>
+
+                        <div class="angles-column post">
+                            <h3>POST-FIT ANGLES</h3>
+                            <div class="angle-item">
+                                <div class="angle-label">Knee Angle Extension</div>
+                                <div class="angle-value">${data.postFit.kneeExt}</div>
+                            </div>
+                            <div class="angle-item">
+                                <div class="angle-label">Knee Angle Flexion</div>
+                                <div class="angle-value">${data.postFit.kneeFlex}</div>
+                            </div>
+                            <div class="angle-item">
+                                <div class="angle-label">Ankle Angle Max</div>
+                                <div class="angle-value">${data.postFit.ankle}</div>
+                            </div>
+                            <div class="angle-item">
+                                <div class="angle-label">Knee to Foot H. Offset</div>
+                                <div class="angle-value">${data.postFit.kneeOffset}</div>
+                            </div>
+                            <div class="angle-item">
+                                <div class="angle-label">Back Angle</div>
+                                <div class="angle-value">${data.postFit.back}</div>
+                            </div>
+                            <div class="angle-item">
+                                <div class="angle-label">Hip Angle Closed</div>
+                                <div class="angle-value">${data.postFit.hip}</div>
+                            </div>
+                            <div class="angle-item">
+                                <div class="angle-label">Shoulder Angle to Wrist</div>
+                                <div class="angle-value">${data.postFit.shoulderWrist}</div>
+                            </div>
+                            <div class="angle-item">
+                                <div class="angle-label">Shoulder Angle to Elbow</div>
+                                <div class="angle-value">${data.postFit.shoulderElbow}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="compensation-section">
+                        <h3>🆕 身體代償分析 (Body Compensation Analysis)</h3>
+                        
+                        <div style="margin-bottom: 10px;">
+                            <h4 style="font-size: 11px; color: #e65100; margin-bottom: 6px;">腳跟外旋 (Heel Rotation)</h4>
+                            <div class="comp-grid">
+                                <div class="comp-item">
+                                    <h4><span class="side-badge badge-left">LEFT</span> 左腳</h4>
+                                    <div class="comp-value">${data.compensation.leftHeel}</div>
+                                    <div class="comp-status status-good">正常</div>
+                                </div>
+                                <div class="comp-item">
+                                    <h4><span class="side-badge badge-right">RIGHT</span> 右腳</h4>
+                                    <div class="comp-value">${data.compensation.rightHeel}</div>
+                                    <div class="comp-status status-warning">輕微</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <h4 style="font-size: 11px; color: #e65100; margin-bottom: 6px;">腳掌開放角 (Foot Angle)</h4>
+                            <div class="comp-grid">
+                                <div class="comp-item">
+                                    <h4><span class="side-badge badge-left">LEFT</span> 左腳</h4>
+                                    <div class="comp-value">${data.compensation.leftFoot}</div>
+                                </div>
+                                <div class="comp-item">
+                                    <h4><span class="side-badge badge-right">RIGHT</span> 右腳</h4>
+                                    <div class="comp-value">${data.compensation.rightFoot}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <h4 style="font-size: 11px; color: #e65100; margin-bottom: 6px;">下肢代償 (Lower Body)</h4>
+                            <div class="comp-grid">
+                                <div class="comp-item">
+                                    <h4><span class="side-badge badge-left">LEFT</span> 左膝</h4>
+                                    <div class="comp-value">${data.compensation.leftKnee}</div>
+                                </div>
+                                <div class="comp-item">
+                                    <h4><span class="side-badge badge-right">RIGHT</span> 右膝</h4>
+                                    <div class="comp-value">${data.compensation.rightKnee}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 style="font-size: 11px; color: #e65100; margin-bottom: 6px;">上肢代償 (Upper Body)</h4>
+                            <div class="comp-grid">
+                                <div class="comp-item">
+                                    <h4>肩膀高度差</h4>
+                                    <div class="comp-value">${data.compensation.shoulderDiff}</div>
+                                </div>
+                                <div class="comp-item">
+                                    <h4>脊椎側傾</h4>
+                                    <div class="comp-value">${data.compensation.spineTilt}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notes-grid">
+                        <div class="notes-column pre">
+                            <h4>PRE FIT NOTES:</h4>
+                            <div class="notes-list">
+                                <ol>
+                                    ${data.notes.pre.map(note => `<li>${note}</li>`).join('')}
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="notes-column post">
+                            <h4>POST FIT NOTES:</h4>
+                            <div class="notes-list">
+                                <ol>
+                                    ${data.notes.post.map(note => `<li>${note}</li>`).join('')}
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page-footer">Orange Fruit Sports Bike Fit Report | Page 1</div>
+                    <div class="orange-bar-bottom"></div>
+                </div>
+            `;
+        }
+
+        function generatePage2(data) {
+            return `
+                <div class="report-page">
+                    <div class="orange-bar-top"></div>
+                    
+                    <div class="report-header">
+                        <div class="logo">
+                            <div class="logo-box">
+                                <div class="logo-icon"></div>
+                                <div class="logo-bar"></div>
+                            </div>
+                            <div class="logo-text">ORANGE<br>FRUIT</div>
+                        </div>
+                        <div class="report-title">R E P O R T</div>
+                        <div style="width: 70px;"></div>
+                    </div>
+
+                    <div class="setup-grid">
+                        <div class="setup-column original">
+                            <h3>ORIGINAL</h3>
+                            <div class="setup-item">
+                                <div class="setup-label">Saddle</div>
+                                <div class="setup-value">${data.original.saddle}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Spacer Height</div>
+                                <div class="setup-value">${data.original.spacer}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Handlebar</div>
+                                <div class="setup-value">${data.original.handlebar}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Stem Length</div>
+                                <div class="setup-value">${data.original.stemLength}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Stem Angle</div>
+                                <div class="setup-value">${data.original.stemAngle}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Shift Hoods</div>
+                                <div class="setup-value">${data.original.hoods}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Hood Tilt Angle</div>
+                                <div class="setup-value">${data.original.hoodTilt}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Crank Length</div>
+                                <div class="setup-value">${data.original.crank}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Pedals</div>
+                                <div class="setup-value">${data.original.pedals}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Shoes</div>
+                                <div class="setup-value">${data.original.shoes}</div>
+                            </div>
+
+                            <div class="measurements-box">
+                                <div class="measurement-row">
+                                    <div class="measurement-item">
+                                        <span class="measurement-label" style="color: #2196F3;">SX:</span>
+                                        <span>${data.original.sx}</span>
+                                    </div>
+                                    <div class="measurement-item">
+                                        <span class="measurement-label" style="color: #4CAF50; font-weight: 900;">HX:</span>
+                                        <span style="color: #4CAF50; font-weight: 700;">${data.original.hx}</span>
+                                    </div>
+                                </div>
+                                <div class="measurement-row">
+                                    <div class="measurement-item">
+                                        <span class="measurement-label" style="color: #2196F3;">SY:</span>
+                                        <span>${data.original.sy}</span>
+                                    </div>
+                                    <div class="measurement-item">
+                                        <span class="measurement-label" style="color: #FF9800; font-weight: 900;">HY:</span>
+                                        <span style="color: #FF9800; font-weight: 700;">${data.original.hy}</span>
+                                    </div>
+                                </div>
+                                <div class="measurement-item" style="margin-top: 8px;">
+                                    <span class="measurement-label" style="color: #2196F3;">Saddle Tilt Angle:</span>
+                                    <span>${data.original.tilt}</span>
+                                </div>
+                                <div class="measurement-item">
+                                    <span class="measurement-label" style="color: #2196F3;">Saddle Height:</span>
+                                    <span>${data.original.height}</span>
+                                </div>
+                                <div class="measurement-item">
+                                    <span class="measurement-label" style="color: #2196F3;">Saddle Setback:</span>
+                                    <span>${data.original.setback}</span>
+                                </div>
+                                <div class="measurement-item">
+                                    <span class="measurement-label" style="color: #2196F3;">HB to Saddle:</span>
+                                    <span>${data.original.hbSaddle}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="setup-column final">
+                            <h3>FINAL</h3>
+                            <div class="setup-item">
+                                <div class="setup-label">Saddle</div>
+                                <div class="setup-value">${data.final.saddle}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Spacer Height</div>
+                                <div class="setup-value">${data.final.spacer}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Handlebar</div>
+                                <div class="setup-value">${data.final.handlebar}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Stem Length</div>
+                                <div class="setup-value">${data.final.stemLength}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Stem Angle</div>
+                                <div class="setup-value">${data.final.stemAngle}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Shift Hoods</div>
+                                <div class="setup-value">${data.final.hoods}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Hood Tilt Angle</div>
+                                <div class="setup-value">${data.final.hoodTilt}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Crank Length</div>
+                                <div class="setup-value">${data.final.crank}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Pedals</div>
+                                <div class="setup-value">${data.final.pedals}</div>
+                            </div>
+                            <div class="setup-item">
+                                <div class="setup-label">Shoes</div>
+                                <div class="setup-value">${data.final.shoes}</div>
+                            </div>
+
+                            <div class="measurements-box">
+                                <div class="measurement-row">
+                                    <div class="measurement-item">
+                                        <span class="measurement-label" style="color: #2196F3;">SX:</span>
+                                        <span>${data.final.sx}</span>
+                                    </div>
+                                    <div class="measurement-item">
+                                        <span class="measurement-label" style="color: #4CAF50; font-weight: 900;">HX:</span>
+                                        <span style="color: #4CAF50; font-weight: 700;">${data.final.hx}</span>
+                                    </div>
+                                </div>
+                                <div class="measurement-row">
+                                    <div class="measurement-item">
+                                        <span class="measurement-label" style="color: #2196F3;">SY:</span>
+                                        <span>${data.final.sy}</span>
+                                    </div>
+                                    <div class="measurement-item">
+                                        <span class="measurement-label" style="color: #FF9800; font-weight: 900;">HY:</span>
+                                        <span style="color: #FF9800; font-weight: 700;">${data.final.hy}</span>
+                                    </div>
+                                </div>
+                                <div class="measurement-item" style="margin-top: 8px;">
+                                    <span class="measurement-label" style="color: #ff6b35;">Saddle Tilt Angle:</span>
+                                    <span>${data.final.tilt}</span>
+                                </div>
+                                <div class="measurement-item">
+                                    <span class="measurement-label" style="color: #ff6b35;">Saddle Height:</span>
+                                    <span>${data.final.height}</span>
+                                </div>
+                                <div class="measurement-item">
+                                    <span class="measurement-label" style="color: #ff6b35;">Saddle Setback:</span>
+                                    <span>${data.final.setback}</span>
+                                </div>
+                                <div class="measurement-item">
+                                    <span class="measurement-label" style="color: #ff6b35;">HB to Saddle:</span>
+                                    <span>${data.final.hbSaddle}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bike-diagram">
+                        ${data.photos.bikeGeometry ? 
+                            `<img src="${data.photos.bikeGeometry}" style="max-width: 100%; height: auto; border-radius: 8px;">` 
+                            : 
+                            `<div style="padding: 60px; text-align: center; color: #999; background: white; border-radius: 8px; border: 2px dashed #ddd;">
+                                <p style="font-size: 14px; margin-bottom: 5px;">Bike Geometry Diagram</p>
+                                <p style="font-size: 11px;">(請在「照片上傳」分頁上傳自行車幾何圖)</p>
+                            </div>`
+                        }
+                        
+                        <div style="margin-top: 15px; padding: 12px; background: white; border-radius: 8px; font-size: 10px;">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 30px; height: 3px; background: #4CAF50;"></div>
+                                    <span><strong style="color: #4CAF50;">HX:</strong> 把手到 BB 水平距離</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 30px; height: 3px; background: #FF9800;"></div>
+                                    <span><strong style="color: #FF9800;">HY:</strong> 把手到 BB 垂直距離</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 30px; height: 3px; background: #2196F3;"></div>
+                                    <span><strong style="color: #2196F3;">SY:</strong> 座墊高度</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 30px; height: 3px; background: #C71585;"></div>
+                                    <span><strong style="color: #C71585;">SX:</strong> 座墊前後位置</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page-footer">Orange Fruit Sports Bike Fit Report | Page 2</div>
+                    <div class="orange-bar-bottom"></div>
+                </div>
+            `;
+        }
+
+        function backToEdit() {
+            document.getElementById('editMode').style.display = 'block';
+            document.getElementById('reportContainer').classList.remove('show');
+            document.getElementById('actionButtons').style.display = 'none';
+        }
+
+        function downloadJSON() {
+            const data = localStorage.getItem('fittingData');
+            if (!data) {
+                alert('請先生成報告');
+                return;
+            }
+
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `fitting-report-${new Date().getTime()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function fillSampleData() {
+            // 基本資料
+            document.getElementById('athleteName').value = '張大明';
+            document.getElementById('athleteEmail').value = 'example@email.com';
+            document.getElementById('athleteGender').value = '男';
+            document.getElementById('athleteAge').value = '35';
+            
+            document.getElementById('bikeMake').value = 'Giant';
+            document.getElementById('bikeModel').value = 'TCR Advanced Pro';
+            document.getElementById('bikeType').value = 'Road';
+            document.getElementById('bikeSize').value = 'M';
+
+            // Pre-Fit Angles
+            document.getElementById('preKneeExt').value = '148.2°';
+            document.getElementById('preKneeFlex').value = '74.5°';
+            document.getElementById('preAnkle').value = '105.3°';
+            document.getElementById('preKneeOffset').value = '3.2mm';
+            document.getElementById('preBack').value = '38.5°';
+            document.getElementById('preHip').value = '92.1°';
+            document.getElementById('preShoulderWrist').value = '85.3°';
+            document.getElementById('preShoulderElbow').value = '105.7°';
+
+            // Post-Fit Angles
+            document.getElementById('postKneeExt').value = '150.1°';
+            document.getElementById('postKneeFlex').value = '73.2°';
+            document.getElementById('postAnkle').value = '103.5°';
+            document.getElementById('postKneeOffset').value = '0.8mm';
+            document.getElementById('postBack').value = '36.2°';
+            document.getElementById('postHip').value = '89.8°';
+            document.getElementById('postShoulderWrist').value = '87.1°';
+            document.getElementById('postShoulderElbow').value = '103.4°';
+
+            // 代償數據
+            document.getElementById('leftHeel').value = '4.2°';
+            document.getElementById('rightHeel').value = '8.7°';
+            document.getElementById('leftFoot').value = '8.5°';
+            document.getElementById('rightFoot').value = '12.3°';
+            document.getElementById('leftKnee').value = '+2.1mm';
+            document.getElementById('rightKnee').value = '-1.8mm';
+            document.getElementById('hipMove').value = '2.3°';
+            document.getElementById('shoulderDiff').value = '6.5mm';
+            document.getElementById('spineTilt').value = '左傾 2.8°';
+
+            // Original Setup
+            document.getElementById('origSaddle').value = 'Fizik Arione';
+            document.getElementById('origSpacer').value = '20mm';
+            document.getElementById('origHandlebar').value = 'Zipp Service Course';
+            document.getElementById('origStemLength').value = '100mm';
+            document.getElementById('origStemAngle').value = '-6°';
+            document.getElementById('origHoods').value = 'Shimano Ultegra';
+            document.getElementById('origHoodTilt').value = '8°';
+            document.getElementById('origCrank').value = '172.5mm';
+            document.getElementById('origPedals').value = 'Look Keo';
+            document.getElementById('origShoes').value = 'Specialized S-Works';
+            document.getElementById('origSX').value = '345mm';
+            document.getElementById('origSY').value = '720mm';
+            document.getElementById('origHX').value = '485mm';
+            document.getElementById('origHY').value = '570mm';
+            document.getElementById('origTilt').value = '0°';
+            document.getElementById('origHeight').value = '745mm';
+            document.getElementById('origSetback').value = '65mm';
+            document.getElementById('origHBSaddle').value = '520mm';
+
+            // Final Setup
+            document.getElementById('finalSaddle').value = 'Fizik Arione';
+            document.getElementById('finalSpacer').value = '15mm';
+            document.getElementById('finalHandlebar').value = 'Zipp Service Course';
+            document.getElementById('finalStemLength').value = '110mm';
+            document.getElementById('finalStemAngle').value = '-6°';
+            document.getElementById('finalHoods').value = 'Shimano Ultegra';
+            document.getElementById('finalHoodTilt').value = '10°';
+            document.getElementById('finalCrank').value = '172.5mm';
+            document.getElementById('finalPedals').value = 'Look Keo';
+            document.getElementById('finalShoes').value = 'Specialized S-Works';
+            document.getElementById('finalSX').value = '350mm';
+            document.getElementById('finalSY').value = '730mm';
+            document.getElementById('finalHX').value = '495mm';
+            document.getElementById('finalHY').value = '575mm';
+            document.getElementById('finalTilt').value = '-1°';
+            document.getElementById('finalHeight').value = '750mm';
+            document.getElementById('finalSetback').value = '68mm';
+            document.getElementById('finalHBSaddle').value = '530mm';
+
+            // Notes
+            document.getElementById('preNote1').value = '右腳外旋角度偏大（8.7°），建議調整 cleat';
+            document.getElementById('preNote2').value = '肩膀高度不對稱（6.5mm），疑似長短腳';
+            document.getElementById('preNote3').value = '膝關節角度略小（148.2°），座墊可能過低';
+
+            document.getElementById('postNote1').value = '右腳 cleat 已向內旋轉 3mm';
+            document.getElementById('postNote2').value = '座墊高度提升 5mm（745mm → 750mm）';
+            document.getElementById('postNote3').value = '建議使用 2mm 墊片改善肩膀不對稱';
+            document.getElementById('postNote4').value = '2週後追蹤外旋改善狀況';
+
+            alert('✅ 範例數據已填入！\n請切換到其他分頁查看，或直接點「生成完整報告」');
+        }
+    </script>
+</body>
+</html>
