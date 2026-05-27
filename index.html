@@ -634,10 +634,51 @@
         }
 
         @media print {
-            body { background: white; }
-            .edit-mode, .action-buttons { display: none !important; }
-            .report-container { box-shadow: none; max-width: 100%; }
-            .report-page { padding: 0; margin: 0; page-break-after: always; }
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .edit-mode,
+            .action-buttons,
+            .qr-float {
+                display: none !important;
+            }
+            .report-container {
+                box-shadow: none;
+                max-width: 100%;
+                width: 100%;
+                display: block !important;
+            }
+            .report-page {
+                padding: 15mm 20mm 30mm 20mm;
+                margin: 0;
+                min-height: unset;
+                height: auto;
+                page-break-after: always;
+                break-after: page;
+            }
+            /* 防止區塊被切斷跨頁 */
+            .compensation-section,
+            .notes-grid,
+            .angles-grid,
+            .photo-grid,
+            .setup-grid,
+            .comp-grid,
+            .info-grid {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            /* 照片固定高度，避免撐爆版面 */
+            .photo-box {
+                height: 160px;
+            }
+            .photo-box img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                max-height: unset;
+            }
         }
     </style>
 </head>
