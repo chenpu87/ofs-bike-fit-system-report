@@ -219,13 +219,10 @@
 
         .report-page {
             background: white;
-            padding: 15mm 20mm 20mm 20mm;
+            padding: 15mm 20mm 30mm 20mm;
             min-height: 277mm;
             page-break-after: always;
-            break-after: page;
             position: relative;
-            display: flex;
-            flex-direction: column;
         }
 
         .orange-bar-top {
@@ -235,17 +232,15 @@
             width: 100%;
             height: 8mm;
             background: linear-gradient(90deg, #ff6b35 0%, #ff6b35 30%, #f7931e 100%);
-            flex-shrink: 0;
         }
 
         .orange-bar-bottom {
-            width: calc(100% + 40mm);
-            margin-left: -20mm;
-            margin-right: -20mm;
-            height: 8px;
-            margin-bottom: -20mm;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3mm;
             background: linear-gradient(90deg, #ff6b35 0%, #f7931e 100%);
-            flex-shrink: 0;
         }
 
         .report-header {
@@ -348,24 +343,46 @@
             margin-bottom: 8mm;
         }
 
+        /* 主照片：pre-fit / post-fit / skeleton — 保持比例不裁切 */
         .photo-box {
             background: #e9ecef;
             border-radius: 5px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
             color: #999;
             font-size: 10px;
             position: relative;
             overflow: hidden;
-            height: 150px;
+            min-height: 200px;
         }
 
         .photo-box img {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            max-height: unset;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* 代償分析照片：限高裁切，避免撐爆版面 */
+        .comp-photo {
+            width: 100%;
+            height: 160px;
             object-fit: cover;
+            border-radius: 4px;
+            margin-top: 6px;
+            display: block;
+        }
+
+        .comp-photo-sm {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 4px;
             display: block;
         }
 
@@ -527,12 +544,14 @@
         }
 
         .page-footer {
-            margin-top: auto;
-            padding-top: 8px;
-            margin-bottom: 8px;
+            position: absolute;
+            bottom: 10mm;
+            left: 20mm;
+            right: 20mm;
             text-align: center;
             font-size: 9px;
             color: #999;
+            padding-top: 5px;
             border-top: 1px solid #e0e0e0;
         }
 
@@ -657,45 +676,56 @@
             .report-page {
                 padding: 15mm 20mm 20mm 20mm;
                 margin: 0;
-                min-height: 277mm;
+                min-height: unset;
                 height: auto;
                 page-break-after: always;
                 break-after: page;
-                display: flex;
-                flex-direction: column;
+                position: relative;
             }
             /* 防止區塊被切斷跨頁 */
             .compensation-section,
             .notes-grid,
             .angles-grid,
+            .photo-grid,
             .setup-grid,
             .comp-grid,
             .info-grid {
                 break-inside: avoid;
                 page-break-inside: avoid;
             }
-            /* 照片固定高度 */
+            /* 主照片：保持比例，不裁切 */
             .photo-box {
-                height: 150px;
+                min-height: 200px;
             }
             .photo-box img {
+                position: absolute;
+                top: 0; left: 0;
                 width: 100%;
                 height: 100%;
+                object-fit: contain;
+            }
+            /* 代償照片：限高裁切 */
+            .comp-photo {
+                height: 160px;
                 object-fit: cover;
-                max-height: unset;
+            }
+            .comp-photo-sm {
+                height: 120px;
+                object-fit: cover;
+            }
+            /* 頁尾不被壓到 */
+            .page-footer {
+                position: absolute;
+                bottom: 10mm;
+                left: 20mm;
+                right: 20mm;
             }
             .orange-bar-bottom {
-                width: calc(100% + 40mm);
-                margin-left: -20mm;
-                margin-right: -20mm;
-                height: 8px;
-                margin-bottom: -20mm;
-                background: linear-gradient(90deg, #ff6b35 0%, #f7931e 100%);
-            }
-            .page-footer {
-                margin-top: auto;
-                padding-top: 8px;
-                margin-bottom: 8px;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 3mm;
             }
         }
     </style>
@@ -1479,13 +1509,13 @@
                                     <h4><span class="side-badge badge-left">LEFT</span> 左腳</h4>
                                     <div class="comp-value">${data.compensation.leftHeel}</div>
                                     <div class="comp-status status-good">正常</div>
-                                    ${data.photos.heelLeft ? '<img src="'+data.photos.heelLeft+'" style="width:100%;height:160px;margin-top:6px;border-radius:4px;object-fit:cover;">' : ''}
+                                    ${data.photos.heelLeft ? '<img src="'+data.photos.heelLeft+'" class="comp-photo">' : ''}
                                 </div>
                                 <div class="comp-item">
                                     <h4><span class="side-badge badge-right">RIGHT</span> 右腳</h4>
                                     <div class="comp-value">${data.compensation.rightHeel}</div>
                                     <div class="comp-status status-warning">輕微</div>
-                                    ${data.photos.heelRight ? '<img src="'+data.photos.heelRight+'" style="width:100%;height:160px;margin-top:6px;border-radius:4px;object-fit:cover;">' : ''}
+                                    ${data.photos.heelRight ? '<img src="'+data.photos.heelRight+'" class="comp-photo">' : ''}
                                 </div>
                             </div>
                         </div>
@@ -1510,12 +1540,12 @@
                                 <div class="comp-item">
                                     <h4><span class="side-badge badge-left">LEFT</span> 左膝</h4>
                                     <div class="comp-value">${data.compensation.leftKnee}</div>
-                                    ${data.photos.lowerCompLeft ? '<img src="'+data.photos.lowerCompLeft+'" style="width:100%;height:160px;margin-top:6px;border-radius:4px;object-fit:cover;">' : ''}
+                                    ${data.photos.lowerCompLeft ? '<img src="'+data.photos.lowerCompLeft+'" class="comp-photo">' : ''}
                                 </div>
                                 <div class="comp-item">
                                     <h4><span class="side-badge badge-right">RIGHT</span> 右膝</h4>
                                     <div class="comp-value">${data.compensation.rightKnee}</div>
-                                    ${data.photos.lowerCompRight ? '<img src="'+data.photos.lowerCompRight+'" style="width:100%;height:160px;margin-top:6px;border-radius:4px;object-fit:cover;">' : ''}
+                                    ${data.photos.lowerCompRight ? '<img src="'+data.photos.lowerCompRight+'" class="comp-photo">' : ''}
                                 </div>
                             </div>
                         </div>
@@ -1532,7 +1562,7 @@
                                     <div class="comp-value">${data.compensation.spineTilt}</div>
                                 </div>
                             </div>
-                            ${data.photos.upperComp ? '<div style="margin-top:8px;"><img src="'+data.photos.upperComp+'" style="max-width:100%;height:120px;border-radius:4px;object-fit:cover;"></div>' : ''}
+                            ${data.photos.upperComp ? '<div style="margin-top:8px;"><img src="'+data.photos.upperComp+'" class="comp-photo"></div>' : ''}
                         </div>
 
                         <div style="margin-top:10px;border-top:1px solid #ffe0b2;padding-top:8px;">
@@ -1563,7 +1593,7 @@
                                     <div class="comp-value">${data.hip ? data.hip.pelvisTilt : '-'}</div>
                                 </div>
                             </div>
-                            ${(data.photos.hipLeft || data.photos.hipRight || data.photos.hipRotation) ? (function(){ var g='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;">'; if(data.photos.hipLeft) g+='<div style="text-align:center;"><img src="'+data.photos.hipLeft+'" style="width:100%;height:120px;border-radius:4px;object-fit:cover;"><div style="font-size:9px;color:#6a1b9a;margin-top:3px;">左髖</div></div>'; if(data.photos.hipRight) g+='<div style="text-align:center;"><img src="'+data.photos.hipRight+'" style="width:100%;height:120px;border-radius:4px;object-fit:cover;"><div style="font-size:9px;color:#6a1b9a;margin-top:3px;">右髖</div></div>'; if(data.photos.hipRotation) g+='<div style="text-align:center;"><img src="'+data.photos.hipRotation+'" style="width:100%;height:120px;border-radius:4px;object-fit:cover;"><div style="font-size:9px;color:#6a1b9a;margin-top:3px;">骨盆</div></div>'; g+='</div>'; return g; })() : ''}
+                            ${(data.photos.hipLeft || data.photos.hipRight || data.photos.hipRotation) ? (function(){ var g='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;">'; if(data.photos.hipLeft) g+='<div style="text-align:center;"><img src="'+data.photos.hipLeft+'" class="comp-photo-sm"><div style="font-size:9px;color:#6a1b9a;margin-top:3px;">左髖</div></div>'; if(data.photos.hipRight) g+='<div style="text-align:center;"><img src="'+data.photos.hipRight+'" class="comp-photo-sm"><div style="font-size:9px;color:#6a1b9a;margin-top:3px;">右髖</div></div>'; if(data.photos.hipRotation) g+='<div style="text-align:center;"><img src="'+data.photos.hipRotation+'" class="comp-photo-sm"><div style="font-size:9px;color:#6a1b9a;margin-top:3px;">骨盆</div></div>'; g+='</div>'; return g; })() : ''}
                         </div>
                     </div>
 
