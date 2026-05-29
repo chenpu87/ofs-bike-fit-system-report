@@ -207,7 +207,7 @@
         /* 報告樣式 */
         .report-container {
             background: white;
-            width: 210mm;
+            max-width: 210mm;
             margin: 0 auto;
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
             display: none;
@@ -219,15 +219,12 @@
 
         .report-page {
             background: white;
-            width: 210mm;
-            height: 297mm;
             padding: 15mm 20mm 0 20mm;
+            min-height: 277mm;
             page-break-after: always;
-            break-after: page;
             position: relative;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
         }
 
         .orange-bar-top {
@@ -685,11 +682,6 @@
             z-index: 1000;
         }
 
-        @page {
-            size: A4;
-            margin: 0;
-        }
-
         @media print {
             body {
                 background: white;
@@ -710,14 +702,13 @@
             .report-page {
                 padding: 15mm 20mm 0 20mm;
                 margin: 0;
-                width: 210mm;
-                height: 297mm;
+                min-height: unset;
+                height: auto;
                 page-break-after: always;
                 break-after: page;
                 position: relative;
                 display: flex;
                 flex-direction: column;
-                overflow: hidden;
             }
             /* 防止區塊被切斷跨頁 */
             .compensation-section,
@@ -1209,11 +1200,8 @@
     <!-- 操作按鈕 -->
     <div class="action-buttons" style="display:none;" id="actionButtons">
         <button class="btn btn-secondary" onclick="backToEdit()">← 返回編輯</button>
-        <button class="btn btn-primary" onclick="window.print()" title="列印設定：Margins=None / Scale=100% / ✅ Background graphics">🖨️ 列印 / PDF</button>
+        <button class="btn btn-primary" onclick="window.print()">🖨️ 列印 / PDF</button>
         <button class="btn btn-secondary" onclick="downloadJSON()">💾 下載數據</button>
-    </div>
-    <div id="printTip" style="display:none; position:fixed; bottom:90px; right:30px; background:#333; color:#fff; font-size:11px; padding:8px 14px; border-radius:8px; z-index:999; max-width:260px; line-height:1.6;">
-        🖨️ 列印提示：Margins = <b>None</b> · Scale = <b>100%</b> · ✅ Background graphics
     </div>
 
     <script>
@@ -1262,7 +1250,6 @@
             document.getElementById('editMode').style.display = 'none';
             reportContainer.classList.add('show');
             document.getElementById('actionButtons').style.display = 'flex';
-            document.getElementById('printTip').style.display = 'block';
             
             // 儲存到 localStorage
             localStorage.setItem('fittingData', JSON.stringify(data));
@@ -1574,8 +1561,8 @@
                 <div class="${cls}">
                     <img src="${src}">
                     <svg class="crosshair-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                        <line x1="50" y1="0" x2="50" y2="100" stroke="#e53935" stroke-width="0.8" stroke-dasharray="4 4"/>
-                        <line x1="0" y1="50" x2="100" y2="50" stroke="#e53935" stroke-width="0.8" stroke-dasharray="4 4"/>
+                        <line x1="50" y1="0" x2="50" y2="100" stroke="rgba(220,0,0,0.85)" stroke-width="0.8" stroke-dasharray="4,3"/>
+                        <line x1="0" y1="50" x2="100" y2="50" stroke="rgba(220,0,0,0.85)" stroke-width="0.8" stroke-dasharray="4,3"/>
                     </svg>
                 </div>`;
         }
@@ -1908,7 +1895,6 @@
             document.getElementById('editMode').style.display = 'block';
             document.getElementById('reportContainer').classList.remove('show');
             document.getElementById('actionButtons').style.display = 'none';
-            document.getElementById('printTip').style.display = 'none';
         }
 
         function downloadJSON() {
