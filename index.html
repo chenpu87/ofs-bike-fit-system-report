@@ -784,8 +784,154 @@
             }
         }
     </style>
+
+    <style>
+        /* 登入頁面 */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #fff5f0 0%, #fff 60%, #fff8f0 100%);
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 8px 40px rgba(255,107,53,0.15);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+
+        .login-logo {
+            margin-bottom: 30px;
+        }
+
+        .login-logo .logo-box {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 12px;
+            font-size: 18px;
+        }
+
+        .login-logo h1 {
+            font-size: 22px;
+            font-weight: 900;
+            color: #333;
+            letter-spacing: 2px;
+        }
+
+        .login-logo p {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .login-divider {
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b35, #f7931e);
+            border-radius: 2px;
+            margin: 20px auto;
+        }
+
+        .login-field {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .login-field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .login-field input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+
+        .login-field input:focus {
+            outline: none;
+            border-color: #ff6b35;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,107,53,0.4);
+        }
+
+        .login-error {
+            color: #f44336;
+            font-size: 13px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .login-footer {
+            margin-top: 24px;
+            font-size: 11px;
+            color: #bbb;
+        }
+    </style>
 </head>
 <body>
+
+    <!-- 登入頁面 -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="login-logo">
+                <div class="logo-box" style="width:60px;height:60px;background:#ff6b35;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 12px;">
+                    <div style="width:26px;height:26px;background:white;border-radius:50%;"></div>
+                    <div style="width:32px;height:5px;background:white;margin-top:4px;border-radius:2px;"></div>
+                </div>
+                <h1>ORANGE FRUIT</h1>
+                <p>Sports Bike Fit System</p>
+            </div>
+            <div class="login-divider"></div>
+
+            <div class="login-field">
+                <label>帳號 Username</label>
+                <input type="text" id="loginUser" placeholder="請輸入帳號" onkeydown="if(event.key==='Enter') doLogin()">
+            </div>
+            <div class="login-field">
+                <label>密碼 Password</label>
+                <input type="password" id="loginPass" placeholder="請輸入密碼" onkeydown="if(event.key==='Enter') doLogin()">
+            </div>
+
+            <button class="login-btn" onclick="doLogin()">登 入</button>
+            <div class="login-error" id="loginError">❌ 帳號或密碼錯誤，請再試一次</div>
+
+            <div class="login-footer">© Orange Fruit Sports · Bike Fit System</div>
+        </div>
+    </div>
+
+    <!-- 主系統（登入後顯示） -->
+    <div id="mainSystem" style="display:none;">
 
     <!-- QR Code 浮動框 -->
     <div class="qr-float">
@@ -1213,8 +1359,9 @@
                 </div>
             </div>
 
-            <div style="text-align: center; margin-top: 30px;">
+            <div style="text-align: center; margin-top: 30px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
                 <button class="btn btn-primary" onclick="generateReport()">📊 生成完整報告</button>
+                <button class="btn" style="background: linear-gradient(135deg, #6a1b9a 0%, #9c27b0 100%); color: white; padding: 12px 30px; border-radius: 8px; font-size: 1em; font-weight: 600; cursor: pointer; border: none;" onclick="window.location.href='dynamic_analysis.html'">🎬 動態分析</button>
                 <button class="btn btn-secondary" onclick="fillSampleData()">📝 填入範例數據</button>
             </div>
         </div>
@@ -1232,6 +1379,33 @@
         <button class="btn btn-primary" onclick="window.print()">🖨️ 列印 / PDF</button>
         <button class="btn btn-secondary" onclick="downloadJSON()">💾 下載數據</button>
     </div>
+
+    </div><!-- end mainSystem -->
+
+    <script>
+        // ===== 登入帳密設定（在這裡修改） =====
+        const ACCOUNTS = {
+            'admin':   'ofs2024',
+            'coach1':  'bike1234',
+            'coach2':  'fruit88',
+            'staff':   'orange01'
+        };
+
+        function doLogin() {
+            const user = document.getElementById('loginUser').value.trim();
+            const pass = document.getElementById('loginPass').value;
+            const err  = document.getElementById('loginError');
+
+            if (ACCOUNTS[user] && ACCOUNTS[user] === pass) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainSystem').style.display = 'block';
+                err.style.display = 'none';
+            } else {
+                err.style.display = 'block';
+                document.getElementById('loginPass').value = '';
+            }
+        }
+    </script>
 
     <script>
         // Tab 切換
