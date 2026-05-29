@@ -412,7 +412,15 @@
             border-radius: 4px;
         }
 
-        .photo-crosshair img { height: 160px; object-fit: cover; }
+        /* 腳跟照片：contain 顯示完整，不裁切 */
+        .photo-crosshair.heel-photo {
+            background: #111;
+        }
+        .photo-crosshair.heel-photo img {
+            height: 130px;
+            object-fit: contain;
+            background: #111;
+        }
         .photo-crosshair-sm img { height: 120px; object-fit: cover; }
 
         .crosshair-overlay {
@@ -1783,9 +1791,10 @@
         }
 
         // 生成帶十字虛線的照片 HTML
-        function photoWithCrosshair(src, height, isSmall) {
+        function photoWithCrosshair(src, height, isSmall, extraClass) {
             if (!src) return '';
-            const cls = isSmall ? 'photo-crosshair photo-crosshair-sm' : 'photo-crosshair';
+            let cls = isSmall ? 'photo-crosshair photo-crosshair-sm' : 'photo-crosshair';
+            if (extraClass) cls += ' ' + extraClass;
             return `
                 <div class="${cls}">
                     <img src="${src}">
@@ -1811,13 +1820,13 @@
                                     <h4><span class="side-badge badge-left">LEFT</span> 左腳</h4>
                                     <div class="comp-value">${data.compensation.leftHeel}</div>
                                     <div class="comp-status status-good">正常</div>
-                                    ${data.photos.heelLeft ? photoWithCrosshair(data.photos.heelLeft, 160, false) : ''}
+                                    ${data.photos.heelLeft ? photoWithCrosshair(data.photos.heelLeft, 130, false, 'heel-photo') : ''}
                                 </div>
                                 <div class="comp-item">
                                     <h4><span class="side-badge badge-right">RIGHT</span> 右腳</h4>
                                     <div class="comp-value">${data.compensation.rightHeel}</div>
                                     <div class="comp-status status-warning">輕微</div>
-                                    ${data.photos.heelRight ? photoWithCrosshair(data.photos.heelRight, 160, false) : ''}
+                                    ${data.photos.heelRight ? photoWithCrosshair(data.photos.heelRight, 130, false, 'heel-photo') : ''}
                                 </div>
                             </div>
                         </div>
