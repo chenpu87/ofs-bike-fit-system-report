@@ -219,8 +219,8 @@
 
         .report-page {
             background: white;
-            padding: 15mm 20mm 0 20mm;
-            min-height: 277mm;
+            padding: 5mm 20mm 0 20mm;
+            min-height: 297mm;
             page-break-after: always;
             position: relative;
             display: flex;
@@ -550,7 +550,7 @@
         }
 
         .notes-column h4 {
-            font-size: 11px;
+            font-size: 13px;
             margin-bottom: 8px;
             font-weight: 700;
         }
@@ -567,7 +567,7 @@
 
         .notes-list ol {
             margin-left: 15px;
-            font-size: 10px;
+            font-size: 13px;
             line-height: 1.5;
         }
 
@@ -579,6 +579,10 @@
             font-size: 9px;
             color: #999;
             border-top: 1px solid #e0e0e0;
+	    break-inside: avoid;        /* 加這行 */
+	    page-break-inside: avoid;   /* 加這行（相容舊版） */
+	    break-before: avoid;        /* 加這行，防止在這之前斷頁 */
+	    page-break-before: avoid;   /* 加這行 */
         }
 
         /* Page 2 樣式 */
@@ -1669,7 +1673,7 @@
                             ${(data.photos.hipLeft || data.photos.hipRight || data.photos.hipRotation) ? (function(){ var g='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;">'; if(data.photos.hipLeft) g+='<div style="text-align:center;"><img src="'+data.photos.hipLeft+'" class="comp-photo-sm"><div style="font-size:9px;color:#6a1b9a;margin-top:3px;">左髖</div></div>'; if(data.photos.hipRight) g+='<div style="text-align:center;"><img src="'+data.photos.hipRight+'" class="comp-photo-sm"><div style="font-size:9px;color:#6a1b9a;margin-top:3px;">右髖</div></div>'; if(data.photos.hipRotation) g+='<div style="text-align:center;"><img src="'+data.photos.hipRotation+'" class="comp-photo-sm"><div style="font-size:9px;color:#6a1b9a;margin-top:3px;">骨盆</div></div>'; g+='</div>'; return g; })() : ''}
                         </div>
                     </div>
-
+                  <div style="break-inside: avoid; page-break-inside: avoid;">
                     <div class="page-footer">Orange Fruit Sports Bike Fit Report | Page 2</div>
                     <div class="orange-bar-bottom"></div>
                 </div>
