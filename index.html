@@ -231,7 +231,8 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
+            right: 0;
+            width: auto;
             height: 8mm;
             background: linear-gradient(90deg, #ff6b35 0%, #ff6b35 30%, #f7931e 100%);
         }
@@ -242,6 +243,7 @@
             margin-left: -20mm;
             height: 3mm;
             background: linear-gradient(90deg, #ff6b35 0%, #f7931e 100%);
+            flex-shrink: 0;
         }
 
         .report-header {
@@ -1550,7 +1552,7 @@
                         </div>
                     </div>
 
-                    <div style="break-inside: avoid; page-break-inside: avoid;">
+                    <div style="margin-top: auto; break-inside: avoid; page-break-inside: avoid;">
                         <div class="page-footer">Orange Fruit Sports Bike Fit Report | Page 1</div>
                         <div class="orange-bar-bottom"></div>
                     </div>
@@ -1674,7 +1676,7 @@
                             ${(data.photos.hipLeft || data.photos.hipRight || data.photos.hipRotation) ? (function(){ var g='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;">'; if(data.photos.hipLeft) g+='<div style="text-align:center;"><img src="'+data.photos.hipLeft+'" class="comp-photo-sm"><div style="font-size:9px;color:#6a1b9a;margin-top:3px;">左髖</div></div>'; if(data.photos.hipRight) g+='<div style="text-align:center;"><img src="'+data.photos.hipRight+'" class="comp-photo-sm"><div style="font-size:9px;color:#6a1b9a;margin-top:3px;">右髖</div></div>'; if(data.photos.hipRotation) g+='<div style="text-align:center;"><img src="'+data.photos.hipRotation+'" class="comp-photo-sm"><div style="font-size:9px;color:#6a1b9a;margin-top:3px;">骨盆</div></div>'; g+='</div>'; return g; })() : ''}
                         </div>
                     </div>
-                  <div style="break-inside: avoid; page-break-inside: avoid;">
+                  <div style="margin-top: auto; break-inside: avoid; page-break-inside: avoid;">
                     <div class="page-footer">Orange Fruit Sports Bike Fit Report | Page 2</div>
                     <div class="orange-bar-bottom"></div>
                 </div>
@@ -1686,7 +1688,7 @@
                 <div class="report-page">
                     <div class="orange-bar-top"></div>
                     
-                    <div class="report-header" style="margin-bottom: 6mm; margin-top: 6mm;">
+                    <div class="report-header" style="margin-bottom: 6mm; margin-top: 8mm;">
                         <div class="logo">
                             <img src="https://raw.githubusercontent.com/chenpu87/ofs-bike-fit-system-report/999f7778db169162a631b36e4ee41d1184e265fb/assets/logo.svg" style="height: 60px; width: auto; object-fit: contain;">
                         </div>
@@ -1893,7 +1895,7 @@
                         </div>
                     </div>
 
-                    <div style="break-inside: avoid; page-break-inside: avoid;">
+                    <div style="margin-top: auto; break-inside: avoid; page-break-inside: avoid;">
                         <div class="page-footer">Orange Fruit Sports Bike Fit Report | Page 3</div>
                         <div class="orange-bar-bottom"></div>
                     </div>
