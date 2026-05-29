@@ -603,7 +603,7 @@
         }
 
         .setup-column h3 {
-            font-size: 14px;
+            font-size: 16px;
             margin-bottom: 10px;
             padding-bottom: 5px;
             font-weight: 700;
@@ -621,10 +621,10 @@
 
         .setup-item {
             display: grid;
-            grid-template-columns: 110px 1fr;
-            padding: 5px 0;
+            grid-template-columns: 120px 1fr;
+            padding: 6px 0;
             border-bottom: 1px solid #e0e0e0;
-            font-size: 10px;
+            font-size: 12px;
         }
 
         .setup-item:last-child {
@@ -652,7 +652,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 8px;
             margin-bottom: 8px;
-            font-size: 10px;
+            font-size: 13px;
         }
 
         .measurement-item {
@@ -688,6 +688,11 @@
             z-index: 1000;
         }
 
+        @page {
+            margin: 0;
+            size: A4;
+        }
+
         @media print {
             body {
                 background: white;
@@ -715,6 +720,25 @@
                 position: relative;
                 display: flex;
                 flex-direction: column;
+            }
+            .orange-bar-top {
+                position: absolute;
+                top: 0; left: 0; right: 0;
+                width: auto;
+                height: 8mm;
+                background: linear-gradient(90deg, #ff6b35 0%, #ff6b35 30%, #f7931e 100%);
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .orange-bar-bottom {
+                display: block;
+                position: relative;
+                margin-left: -20mm;
+                width: calc(100% + 40mm);
+                height: 3mm;
+                background: linear-gradient(90deg, #ff6b35 0%, #f7931e 100%);
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
             /* 防止區塊被切斷跨頁 */
             .compensation-section,
@@ -751,13 +775,6 @@
             .page-footer {
                 margin-top: auto;
                 position: static;
-            }
-            .orange-bar-bottom {
-                position: static;
-                left: auto;
-                width: calc(100% + 40mm);
-                height: 3mm;
-                margin-left: -20mm;
             }
         }
     </style>
@@ -1450,15 +1467,15 @@
                             ${data.photos.pre ? '<img src="'+data.photos.pre+'">' : ''}
                             ${data.photos.pre ? `<svg class="crosshair-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                                 <!-- 水平藍線 -->
-                                <line x1="0" y1="48" x2="100" y2="48" stroke="#2196F3" stroke-width="0.6" opacity="0.9"/>
-                                <!-- 垂直藍線 -->
-                                <line x1="28" y1="0" x2="28" y2="100" stroke="#2196F3" stroke-width="0.6" opacity="0.9"/>
-                                <!-- 45度黃線 (從交叉點往右上) -->
-                                <line x1="28" y1="48" x2="68" y2="8" stroke="#FFD600" stroke-width="0.8" opacity="0.95"/>
-                                <text x="62" y="7" fill="#FFD600" font-size="5" font-weight="bold">45</text>
-                                <!-- 40度紅線 -->
-                                <line x1="28" y1="48" x2="72" y2="14" stroke="#FF3D00" stroke-width="0.8" opacity="0.95"/>
-                                <text x="66" y="13" fill="#FF3D00" font-size="5" font-weight="bold">40</text>
+                                <line x1="0" y1="52" x2="100" y2="52" stroke="#2196F3" stroke-width="0.6" opacity="0.9"/>
+                                <!-- 垂直藍線 (右側，屁股後方) -->
+                                <line x1="72" y1="0" x2="72" y2="100" stroke="#2196F3" stroke-width="0.6" opacity="0.9"/>
+                                <!-- 45度黃線 (從交叉點往左上，朝向背部) -->
+                                <line x1="72" y1="52" x2="32" y2="12" stroke="#FFD600" stroke-width="0.8" opacity="0.95"/>
+                                <text x="26" y="11" fill="#FFD600" font-size="5" font-weight="bold">45</text>
+                                <!-- 40度紅線 (從交叉點往左上，角度較小) -->
+                                <line x1="72" y1="52" x2="28" y2="19" stroke="#FF3D00" stroke-width="0.8" opacity="0.95"/>
+                                <text x="20" y="18" fill="#FF3D00" font-size="5" font-weight="bold">40</text>
                             </svg>` : ''}
                             <div class="photo-label">PRE-FIT PHOTO</div>
                         </div>
@@ -1466,15 +1483,15 @@
                             ${data.photos.post ? '<img src="'+data.photos.post+'">' : ''}
                             ${data.photos.post ? `<svg class="crosshair-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                                 <!-- 水平藍線 -->
-                                <line x1="0" y1="48" x2="100" y2="48" stroke="#2196F3" stroke-width="0.6" opacity="0.9"/>
-                                <!-- 垂直藍線 -->
-                                <line x1="28" y1="0" x2="28" y2="100" stroke="#2196F3" stroke-width="0.6" opacity="0.9"/>
-                                <!-- 45度黃線 -->
-                                <line x1="28" y1="48" x2="68" y2="8" stroke="#FFD600" stroke-width="0.8" opacity="0.95"/>
-                                <text x="62" y="7" fill="#FFD600" font-size="5" font-weight="bold">45</text>
+                                <line x1="0" y1="52" x2="100" y2="52" stroke="#2196F3" stroke-width="0.6" opacity="0.9"/>
+                                <!-- 垂直藍線 (右側，屁股後方) -->
+                                <line x1="72" y1="0" x2="72" y2="100" stroke="#2196F3" stroke-width="0.6" opacity="0.9"/>
+                                <!-- 45度黃線 (從交叉點往左上，朝向背部) -->
+                                <line x1="72" y1="52" x2="32" y2="12" stroke="#FFD600" stroke-width="0.8" opacity="0.95"/>
+                                <text x="26" y="11" fill="#FFD600" font-size="5" font-weight="bold">45</text>
                                 <!-- 40度紅線 -->
-                                <line x1="28" y1="48" x2="72" y2="14" stroke="#FF3D00" stroke-width="0.8" opacity="0.95"/>
-                                <text x="66" y="13" fill="#FF3D00" font-size="5" font-weight="bold">40</text>
+                                <line x1="72" y1="52" x2="28" y2="19" stroke="#FF3D00" stroke-width="0.8" opacity="0.95"/>
+                                <text x="20" y="18" fill="#FF3D00" font-size="5" font-weight="bold">40</text>
                             </svg>` : ''}
                             <div class="photo-label">POST-FIT PHOTO</div>
                         </div>
@@ -1713,7 +1730,7 @@
                 <div class="report-page">
                     <div class="orange-bar-top"></div>
                     
-                    <div class="report-header" style="margin-bottom: 6mm; margin-top: 8mm;">
+                    <div class="report-header" style="margin-bottom: 4mm; margin-top: 8mm;">
                         <div class="logo">
                             <img src="https://raw.githubusercontent.com/chenpu87/ofs-bike-fit-system-report/999f7778db169162a631b36e4ee41d1184e265fb/assets/logo.svg" style="height: 60px; width: auto; object-fit: contain;">
                         </div>
@@ -1789,19 +1806,19 @@
                                         <span style="color: #FF9800; font-weight: 700;">${data.original.hy}</span>
                                     </div>
                                 </div>
-                                <div class="measurement-item" style="margin-top: 8px;">
+                                <div class="measurement-item" style="margin-top: 8px; font-size: 13px;">
                                     <span class="measurement-label" style="color: #2196F3;">Saddle Tilt Angle:</span>
                                     <span>${data.original.tilt}</span>
                                 </div>
-                                <div class="measurement-item">
+                                <div class="measurement-item" style="font-size: 13px;">
                                     <span class="measurement-label" style="color: #2196F3;">Saddle Height:</span>
                                     <span>${data.original.height}</span>
                                 </div>
-                                <div class="measurement-item">
+                                <div class="measurement-item" style="font-size: 13px;">
                                     <span class="measurement-label" style="color: #2196F3;">Saddle Setback:</span>
                                     <span>${data.original.setback}</span>
                                 </div>
-                                <div class="measurement-item">
+                                <div class="measurement-item" style="font-size: 13px;">
                                     <span class="measurement-label" style="color: #2196F3;">HB to Saddle:</span>
                                     <span>${data.original.hbSaddle}</span>
                                 </div>
@@ -1872,19 +1889,19 @@
                                         <span style="color: #FF9800; font-weight: 700;">${data.final.hy}</span>
                                     </div>
                                 </div>
-                                <div class="measurement-item" style="margin-top: 8px;">
+                                <div class="measurement-item" style="margin-top: 8px; font-size: 13px;">
                                     <span class="measurement-label" style="color: #ff6b35;">Saddle Tilt Angle:</span>
                                     <span>${data.final.tilt}</span>
                                 </div>
-                                <div class="measurement-item">
+                                <div class="measurement-item" style="font-size: 13px;">
                                     <span class="measurement-label" style="color: #ff6b35;">Saddle Height:</span>
                                     <span>${data.final.height}</span>
                                 </div>
-                                <div class="measurement-item">
+                                <div class="measurement-item" style="font-size: 13px;">
                                     <span class="measurement-label" style="color: #ff6b35;">Saddle Setback:</span>
                                     <span>${data.final.setback}</span>
                                 </div>
-                                <div class="measurement-item">
+                                <div class="measurement-item" style="font-size: 13px;">
                                     <span class="measurement-label" style="color: #ff6b35;">HB to Saddle:</span>
                                     <span>${data.final.hbSaddle}</span>
                                 </div>
