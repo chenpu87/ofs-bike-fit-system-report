@@ -1550,8 +1550,10 @@
                         </div>
                     </div>
 
-                    <div class="page-footer">Orange Fruit Sports Bike Fit Report | Page 1</div>
-                    <div class="orange-bar-bottom"></div>
+                    <div style="break-inside: avoid; page-break-inside: avoid;">
+                        <div class="page-footer">Orange Fruit Sports Bike Fit Report | Page 1</div>
+                        <div class="orange-bar-bottom"></div>
+                    </div>
                 </div>
             `;
         }
@@ -1575,7 +1577,7 @@
                 <div class="report-page">
                     <div class="orange-bar-top"></div>
 
-                    <div class="compensation-section" style="margin-top: 8mm;">
+                    <div class="compensation-section" style="margin-top: 2mm;">
                         <h3>🆕 身體代償分析 (Body Compensation Analysis)</h3>
                         
                         <div style="margin-bottom: 10px;">
@@ -1863,13 +1865,13 @@
                         </div>
                     </div>
 
-                    <div class="bike-diagram" style="position: relative;">
-                        ${data.photos.bikeGeometry ? '<img src="'+data.photos.bikeGeometry+'" style="max-width:100%;height:auto;border-radius:8px;">' : '<div style="padding:60px;text-align:center;color:#999;background:white;border-radius:8px;border:2px dashed #ddd;"><p style="font-size:14px;">Bike Geometry Diagram</p></div>'}
+                    <div class="bike-diagram" style="position: relative; margin-top: 10px;">
+                        ${data.photos.bikeGeometry ? '<img src="'+data.photos.bikeGeometry+'" style="width:100%;height:auto;border-radius:8px;display:block;">' : '<div style="padding:60px;text-align:center;color:#999;background:white;border-radius:8px;border:2px dashed #ddd;"><p style="font-size:14px;">Bike Geometry Diagram</p></div>'}
                         
                         <div style="position: absolute; bottom: 10px; left: 10px; 
-			            display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px;
-				    background: rgba(255,255,255,0.85); padding: 6px 10px; 
-                                    border-radius: 4px; font-size: 10px;">
+                            display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px;
+                            background: rgba(255,255,255,0.85); padding: 6px 10px; 
+                            border-radius: 4px; font-size: 10px;">
                             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
                                 <div style="display: flex; align-items: center; gap: 8px;">
                                     <div style="width: 30px; height: 3px; background: #4CAF50;"></div>
@@ -1891,8 +1893,10 @@
                         </div>
                     </div>
 
-                    <div class="page-footer">Orange Fruit Sports Bike Fit Report | Page 3</div>
-                    <div class="orange-bar-bottom"></div>
+                    <div style="break-inside: avoid; page-break-inside: avoid;">
+                        <div class="page-footer">Orange Fruit Sports Bike Fit Report | Page 3</div>
+                        <div class="orange-bar-bottom"></div>
+                    </div>
                 </div>
             `;
         }
