@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 614 400" style="enable-background:new 0 0 614 400;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FF6A00;}
+	.st1{fill:#FFFFFF;}
+	.st2{fill:#111111;}
+	.st3{fill:#231F20;}
+	.st4{font-family:'Helvetica-Bold';}
+	.st5{font-size:60px;}
+	.st6{enable-background:new    ;}
+</style>
+<g>
+	<rect x="51.8" y="80.4" class="st0" width="150" height="150"/>
+	<circle class="st1" cx="126.8" cy="155.4" r="40"/>
+	<ellipse transform="matrix(0.866 -0.5 0.5 0.866 -32.865 98.1875)" class="st2" cx="166.8" cy="110.4" rx="12" ry="6"/>
+	<rect x="221.8" y="80.4" class="st3" width="40" height="150"/>
+	<rect x="51.8" y="250.4" class="st3" width="150" height="40"/>
+	<rect x="221.8" y="250.4" class="st0" width="40" height="40"/>
+	<text transform="matrix(1 0 0 1 296.8195 127.4304)" class="st2 st4 st5">ORANGE</text>
+	<text transform="matrix(1 0 0 1 296.8195 207.4304)" class="st6"><tspan x="0" y="0" class="st2 st4 st5">FRUIT</tspan><tspan x="0" y="72" class="st2 st4 st5">SPORTS</tspan></text>
+</g>
+</svg>
